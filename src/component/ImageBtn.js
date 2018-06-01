@@ -1,6 +1,6 @@
 /**
  * @desc 图标,图片型按钮自定义库 需要自定义图库
- * @author binhuguang
+ * @author binhg
  */
 
 import React, {Component, PropTypes} from 'react'

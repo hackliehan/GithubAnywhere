@@ -1,6 +1,6 @@
 /**
  * @desc App 顶部导航组件
- * @author binhuguang
+ * @author binhg
  */
 
 import React,{Component,PropTypes} from 'react'
