@@ -6,7 +6,7 @@
 >
 > 前端基于 ReactNative技术开发
 
-###本地运行
+### 本地运行
 
 ```bash
 ##编译 iOS 版本
@@ -19,7 +19,7 @@ react-native run-android
 
 > 待续
 
-###实现功能
+### 实现功能
 
 > 待续
 
