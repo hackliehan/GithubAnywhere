@@ -10,9 +10,9 @@ import {
 } from 'react-native'
 import TabNavigator from 'react-native-tab-navigator'
 
-import HotRespority from './hot/HotRespority'
-import TrendRespority from './trend/TrendRespority'
-import FavorateRespority from './favo/FavorateRespority'
+import HotRepository from './hot/HotRepository'
+import TrendRepository from './trend/TrendRepository'
+import FavorateRepository from './favo/FavorateRepository'
 import Customer from './cust/Customer'
 
 
@@ -51,9 +51,9 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <TabNavigator>
-          {this.renderTabView(HotRespority,'hot','最热',require('../../res/images/ic_polular.png'))}
-          {this.renderTabView(TrendRespority,'trend','趋势',require('../../res/images/ic_trending.png'))}
-          {this.renderTabView(FavorateRespority,'favo','收藏',require('../../res/images/ic_favorite.png'))}
+          {this.renderTabView(HotRepository,'hot','最热',require('../../res/images/ic_polular.png'))}
+          {this.renderTabView(TrendRepository,'trend','趋势',require('../../res/images/ic_trending.png'))}
+          {this.renderTabView(FavorateRepository,'favo','收藏',require('../../res/images/ic_favorite.png'))}
           {this.renderTabView(Customer,'cust','我',require('../../res/images/ic_my.png'))}
         </TabNavigator>
       </View>

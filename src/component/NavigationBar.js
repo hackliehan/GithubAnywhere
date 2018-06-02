@@ -10,7 +10,8 @@ import {
     StatusBar,
     StyleSheet,
     Image,
-    Platform
+    Platform,
+    ViewPropTypes
 } from 'react-native'
 
 /**
@@ -31,8 +32,8 @@ export default class NavigationBar extends Component {
     static propTypes = {
         title:PropTypes.string,
         titleView:PropTypes.element,
-        style:View.propTypes.style,//navbar组件整体样式
-        titleLayoutStyle:View.propTypes.style,//标题主题布局
+        style:ViewPropTypes.style,//navbar组件整体样式
+        titleLayoutStyle:ViewPropTypes.style,//标题主题布局
         hide:PropTypes.bool,
         leftBtn:PropTypes.element,//左边按钮
         rightBtn:PropTypes.element, //右边按钮
