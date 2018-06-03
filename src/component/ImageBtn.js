@@ -8,15 +8,16 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
-    Image
+    Image,
+    ViewPropTypes
     } from 'react-native'
 
 
 export default class ImageBtn extends Component {
     static propTypes = {
         source:PropTypes.any.isRequired,
-        wrapperStyle:View.propTypes.style,
-        callBack:PropTypes.func,
+        wrapperStyle:ViewPropTypes.style,
+        onPress:PropTypes.func,
         disable: PropTypes.bool,
         img:PropTypes.element
     }
@@ -24,7 +25,7 @@ export default class ImageBtn extends Component {
     static defaultProps = {
         type:'arrow',
         disable:false,
-        callBack:void(0)
+        onPress:void(0)
     }
 
     constructor(props) {
@@ -39,7 +40,7 @@ export default class ImageBtn extends Component {
                 <TouchableOpacity
                     activeOpacity={0.5}
                     onPress = {
-                        this.props.callBack
+                        this.props.onPress
                     }
                     disable = {this.props.disable}
                 >

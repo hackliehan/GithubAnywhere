@@ -1,0 +1,32 @@
+[
+  {
+    "query": "stars:>1",
+    "name": "ALL",
+    "checked": true
+  },
+  {
+    "query": "javascript",
+    "name": "Javascript",
+    "checked": true
+  },
+  {
+    "query": "react-native",
+    "name": "React Native",
+    "checked": true
+  },
+  {
+    "query": "AngularJS",
+    "name": "AngularJS",
+    "checked": false
+  },
+  {
+    "query": "react",
+    "name": "React",
+    "checked": true
+  },
+  {
+    "query": "iOS",
+    "name": "iOS",
+    "checked": true
+  }
+]

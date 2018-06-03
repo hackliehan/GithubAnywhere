@@ -101,8 +101,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        marginLeft:8,
-        marginRight:8,
+        marginHorizontal:10,
         height:Platform.OS === 'ios'?NAVBAR_HEIGHT_IOS:NAVBAR_HEIGHT_ANDROID
     },
     navTitleContainer:{

@@ -41,7 +41,7 @@ export default class Home extends Component {
             />}
             onPress = {()=>{this.setState({switchTab:tabType})}}
       >
-        <TabComp />
+        <TabComp {...this.props}/>
       </TabNavigator.Item>
     )
   }

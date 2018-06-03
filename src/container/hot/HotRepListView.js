@@ -43,11 +43,12 @@ export default class HotRepListView extends Component {
     }
 
     loadResByLang(){
+        let {query} = this.props.tip;
         this.setState({
             isLoading:true
         });
         return this.hotDao.fetchRemoteRes(QUERY_URL,{
-            q:'iOS',
+            q:query,
             sort:'stars'
         }).then(res=>{
             this.setState({dataSource:this.state.dataSource.cloneWithRows(res)});

@@ -7,26 +7,56 @@ import { Text, StyleSheet, View } from 'react-native'
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import NavigationBar from '../../component/NavigationBar'
 import HotRepListView from './HotRepListView'
+import RepTipDao,{SELECTED_FLAG} from '../../dao/RepTipDao'
 
 export default class HotRespoitory extends Component {
-  render() {
+  
+  constructor(props) {
+    super(props)
+    this.rtDao = new RepTipDao(SELECTED_FLAG.LANG_TIP);
+    this.state = {
+       tipData:[]
+    }
+  }
+  
+  componentDidMount(){
+    this.loadTipData();
+  }
 
+  renderScrollTabView(){
+    if(this.state.tipData.length<1) return null;
+    return  <ScrollableTabView 
+        initialPage = {0}
+        renderTabBar = { ()=><ScrollableTabBar /> }
+      > 
+        {this.state.tipData.map((item,index)=>{
+          return item.checked?<HotRepListView 
+            key={index}
+            tabLabel={item.name} 
+            tip={item} 
+            {...this.props}
+          >{item.name}</HotRepListView>:null
+        })}
+        
+      </ScrollableTabView>
+  }
+
+  loadTipData(){
+    this.rtDao.fetchTipData().then(data=>{
+      this.setState({tipData:data});
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
+
+  render() {
     return (
       <View style={styles.container}>
 
         <NavigationBar 
           title="最热项目"
         />
-
-        <ScrollableTabView 
-          initialPage = {0}
-          renderTabBar = { ()=><ScrollableTabBar /> }
-        >
-          <HotRepListView tabLabel='iOS'>iOS</HotRepListView>
-          <HotRepListView tabLabel='Android'>Android</HotRepListView>
-          <HotRepListView tabLabel='Java'>Java</HotRepListView>
-          <HotRepListView tabLabel='Javascript'>Javascript</HotRepListView>
-        </ScrollableTabView>
+        {this.renderScrollTabView()}
       </View>
     )
 
