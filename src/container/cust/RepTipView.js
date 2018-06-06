@@ -28,7 +28,7 @@ export default class RepTipView extends Component {
   }
 
   onClickTip(item){
-    item.checked = !item.checked;
+    item.checked = this.props.isRemove?item.checked:!item.checked;
     ArrayUtils.updateArray(this.changedTipData,item);
   }
 
@@ -39,7 +39,7 @@ export default class RepTipView extends Component {
       style={styles.checkbox}
       leftText = {name}
       onClick={()=>{this.onClickTip(data)}}
-      isChecked={checked}
+      isChecked={this.props.isRemove?false:checked}
       checkBoxColor={'#2196F3'}
     />
   }
@@ -56,40 +56,41 @@ export default class RepTipView extends Component {
 
       rightBtn = {
         <TextBtn
-          title="保存"
+          title={this.props.isRemove?'删除':'保存'}
           onPress={()=>{this.onSaveData()}}
         />
       }
     />
   }
 
-
+  renderTipCell(key,tip,nextTip,isSingle){
+    return <View key={key} style={styles.tipContainer}>
+      <View style={styles.tipWrap}>
+        {this.renderCheckBox(tip)}
+        {!isSingle?this.renderCheckBox(nextTip):null}
+      </View>
+      <View style={styles.tipLine}></View>
+    </View>
+  }
 
   renderTipView(){
     if(!this.state.tipData||this.state.tipData.length<1) return null;
     let TipViewRows = [],
         len = this.state.tipData.length;
-    for(let i=0;i<len;i+=2){
-      TipViewRows.push(
-        <View key={i} style={styles.tipWrap}>
-          {this.renderCheckBox(this.state.tipData[i])}
-          {this.renderCheckBox(this.state.tipData[i+1])}
-        </View>
-      );
+    for(let i=0;i<len-1;i+=2){
+      TipViewRows.push(this.renderTipCell(i,this.state.tipData[i],this.state.tipData[i+1]));
     }
-    TipViewRows.push(
-      <View key={len-1} style={styles.tipWrap}>
-          {len%2 !== 0?this.renderCheckBox(this.state.tipData[len-1]):null}
-      </View>
-    );
+    //渲染单独存在的一行
+    TipViewRows.push(len%2 !== 0?this.renderTipCell(len-1,this.state.tipData[len-1],null,true):null);
     return TipViewRows;
   }
 
   onGoBack(){
     if(this.changedTipData.length>0){
+      const {isRemove} = this.props;
       Alert.alert(
         '提示',
-        '是否保存更改再退出?',
+        `退出前是否${isRemove?'确认删除':'保存更改'}?`,
         [{
           text:'取消',
           onPress:()=>{
@@ -112,7 +113,10 @@ export default class RepTipView extends Component {
       this.props.navigator.pop();
       return;
     }
-    this.rtDao.saveTipData(this.state.tipData);
+    let resultTipData = ArrayUtils.clone(this.state.tipData);
+    if(this.props.isRemove)
+    resultTipData = this.state.tipData.filter(item=>this.changedTipData.indexOf(item)<0);
+    this.rtDao.saveTipData(resultTipData);
     this.props.navigator.pop();
   }
 
@@ -144,7 +148,14 @@ const styles = StyleSheet.create({
     flex:1,
     padding:10
   },
+  tipContainer:{
+    marginVertical:3
+  },
   tipWrap:{
     flexDirection:'row'
+  },
+  tipLine:{
+    height:1,
+    backgroundColor:'#757575',
   }
 })

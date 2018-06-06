@@ -69,9 +69,9 @@ export default class HotRepListView extends Component {
                     refreshing = {this.state.isLoading}
                     onRefresh = {()=>this.loadResByLang()}
                     title="加载最新数据"
-                    titleColor={'#2196F3'} 
-                    colors={['#2196F3']}
-                    tintColor={'#2196F3'}
+                    titleColor={'#99CCFF'} 
+                    colors={['#99CCFF']}
+                    tintColor={'#99CCFF'}
                  />}
             />
         </View>

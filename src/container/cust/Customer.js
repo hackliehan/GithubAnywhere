@@ -30,6 +30,16 @@ export default class Customer extends Component {
             });
           }}
         > 标签排序 </Text>
+        <Text
+          onPress={()=>{
+            this.props.navigator.push({
+              component:RepTipView,
+              params:{
+                isRemove:true
+              }
+            });
+          }}
+        > 删除标签 </Text>
       </View>
     )
   }

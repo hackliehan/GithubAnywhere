@@ -26,19 +26,23 @@ export default class HotRespoitory extends Component {
   renderScrollTabView(){
     if(this.state.tipData.length<1) return null;
     return  <ScrollableTabView 
-        initialPage = {0}
-        renderTabBar = { ()=><ScrollableTabBar /> }
-      > 
-        {this.state.tipData.map((item,index)=>{
-          return item.checked?<HotRepListView 
-            key={index}
-            tabLabel={item.name} 
-            tip={item} 
-            {...this.props}
-          >{item.name}</HotRepListView>:null
-        })}
-        
-      </ScrollableTabView>
+              tabBarUnderlineStyle={styles.tabView}
+              tabBarActiveTextColor={'white'}
+              tabBarInactiveTextColor={'white'}
+              tabBarBackgroundColor={'#99CCFF'}
+              initialPage = {0}
+              renderTabBar = { ()=><ScrollableTabBar /> }
+            > 
+              {this.state.tipData.map((item,index)=>{
+                return item.checked?<HotRepListView 
+                  key={index}
+                  tabLabel={item.name} 
+                  tip={item}
+                  {...this.props}
+                >{item.name}</HotRepListView>:null
+              })}
+              
+            </ScrollableTabView>
   }
 
   loadTipData(){
@@ -66,5 +70,9 @@ export default class HotRespoitory extends Component {
 const styles = StyleSheet.create({
   container:{
     flex:1
+  },
+  tabView:{
+    backgroundColor:'#e7e7e7',
+    height:3
   }
 })
