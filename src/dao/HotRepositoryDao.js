@@ -7,6 +7,8 @@ import FetchUtils from '../util/FetchUtils'
 import {
     AsyncStorage
 } from 'react-native'
+import GitHubTrending from 'GitHubTrending'
+import {generatorParam} from '../util/FetchUtils'
 
 //获取的数据类型
 export const DATA_TYPE = {
@@ -19,6 +21,9 @@ export default class HotRepositoryDao {
     constructor(dataType){
         this.dataType = dataType;
         this.key = '';
+        if(dataType === DATA_TYPE.type_trend){
+            this.trendUtil = new GitHubTrending();
+        }
     }
 
     /**
@@ -28,7 +33,8 @@ export default class HotRepositoryDao {
      */
     fetchRepoData(url,params){
         return new Promise((resolve,reject)=>{
-            let key = `${this.dataType}${params.q}`;
+            let key = this.dataType === DATA_TYPE.type_hot ?`${this.dataType}${params.q}`:
+                `${this.dataType}${params.since}_${params.lang}`;
             this.key = key;
             this.fetchLocalRepoData(key).then(res=>{
                 let isNeedUpdate = true;
@@ -62,19 +68,29 @@ export default class HotRepositoryDao {
      */
     fetchRemoteRepoData(url, params){
         return new Promise((resolve,reject)=>{
-            FetchUtils.get(url,params).then(res=>{
-                if(!res||!res.items){
-                    reject(new Error('从网络端获取数据为空!'));
-                    return;      
-                }
-                resolve(res.items);
-                console.log('get net data')
-                this.saveLocalRepoData(res.items,this.key).catch(error=>{
-                    console.log(error);
-                });
-            }).catch(error=>{
-                reject(error)
-            })
+            if(this.dataType === DATA_TYPE.type_hot){
+                FetchUtils.get(url,params).then(res=>{
+                    if(!res||!res.items){
+                        reject(new Error('从网络端获取数据为空!'));
+                        return;      
+                    }
+                    resolve(res.items);
+                    this.saveLocalRepoData(res.items,this.key).catch(error=>{
+                        console.log(error);
+                    });
+                }).catch(error=>{
+                    reject(error);
+                })
+            }else{
+                this.trendUtil.fetchTrending(url).then(res=>{
+                    resolve(res);
+                    this.saveLocalRepoData(res,this.key).catch(error=>{
+                        console.log(error);
+                    });
+                }).catch(error=>{
+                    reject(error);
+                })
+            }
         })
     }
 
@@ -99,7 +115,6 @@ export default class HotRepositoryDao {
                             error
                         });
                     }
-                    console.log('get local data')
                 }
             });
         });

@@ -9,7 +9,7 @@
  * @description 组装 GET 模式下的参数 支持一层深度对象
  * @param {Object} params 参数
  */
-function generatorParam(url,params,isJustNeedParams){
+export function generatorParam(url,params,isJustNeedParams){
     params = params||{};
     let hasExistParams = url.indexOf('?') !== -1;
     let bridge = hasExistParams?'&':'?';

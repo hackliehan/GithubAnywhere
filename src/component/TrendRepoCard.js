@@ -1,12 +1,13 @@
 /**
- * @desc 显示项目列表中单个项目详情的卡片
+ * @desc 趋势单项详情
  * @author binhg
  */
 
 import React, { Component } from 'react'
 import { Text, StyleSheet, View , Image ,TouchableOpacity} from 'react-native'
+import HTMLView from 'react-native-htmlview'
 
-export default class RepositoryCard extends Component {
+export default class TrendRepoCard extends Component {
     constructor(props) {
       super(props)
     
@@ -17,25 +18,33 @@ export default class RepositoryCard extends Component {
     
   render() {
     let item = this.props.item;
+    let desc = `<p>${item.description}</p>`;
     return (
         <TouchableOpacity
             activeOpacity = {0.6}
             onPress = {this.props.onPress}
         >
             <View style={styles.container}>
-                    <Text style={styles.title}>{item.full_name}</Text>
-                    <Text style={styles.desc}>{item.description}</Text>
+                    <Text style={styles.title}>{item.fullName}</Text>
+                    <HTMLView 
+                        value={desc}
+                        stylesheet={{
+                            p:styles.desc,
+                            a:styles.desc
+                        }}
+                    />
                     <View style={styles.extraWrap}>
                         <View style={styles.extra}>
-                            <Text>作者:</Text>
-                            <Image 
+                            <Text>贡献者:</Text>
+                            {item.contributors.map((avatar_url,index)=><Image
+                                key={index} 
                                 style={styles.image} 
-                                source={{uri:item.owner.avatar_url}} 
-                            />
+                                source={{uri:avatar_url}} 
+                            />)}
                         </View>
                         <View style={styles.extra}>
                             <Text>星标:</Text>
-                            <Text>{item.stargazers_count}</Text>
+                            <Text>{item.forkCount}</Text>
                         </View>
                         <Image 
                             style={styles.image} 
@@ -67,14 +76,15 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize:16,
-        color:'#212121'
+        color:'#212121',
+        marginBottom:8
     },
     desc:{
         fontSize:14,
-        color:'#757575',
-        marginVertical:5
+        color:'#757575'
     },
     extraWrap:{
+        marginTop:8,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center'

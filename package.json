@@ -12,6 +12,7 @@
 		"react-native": "0.44.3",
 		"react-native-check-box": "^2.1.0",
 		"react-native-deprecated-custom-components": "^0.1.2",
+		"react-native-htmlview": "^0.12.1",
 		"react-native-scrollable-tab-view": "^0.8.0",
 		"react-native-sortable-listview": "^0.2.8",
 		"react-native-tab-navigator": "^0.3.4"
