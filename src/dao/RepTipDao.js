@@ -4,12 +4,13 @@
  */
 
 import tipData from '../../res/data/preTips.json'
+import trendData from '../../res/data/preTrendingType.json'
 import {AsyncStorage} from 'react-native'
 
 //存储数据标志
 export const SELECTED_FLAG = {
-    LANG_TYPE:'LANG_TYPE',
-    LANG_TIP:'LANG_TIP'
+    LANG_TREND:'LANG_TREND',
+    LANG_HOT:'LANG_HOT'
 }
 
 export default class RepTipDao {
@@ -35,8 +36,8 @@ export default class RepTipDao {
                     }
                 }
                 else{
-                    resolve(tipData);
-                    this.saveTipData(tipData);
+                    resolve(this.flag === SELECTED_FLAG.LANG_HOT?tipData:trendData);
+                    this.saveTipData(this.flag === SELECTED_FLAG.LANG_HOT?tipData:trendData);
                 }
 
             })

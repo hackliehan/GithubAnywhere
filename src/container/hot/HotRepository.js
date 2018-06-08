@@ -13,7 +13,7 @@ export default class HotRespoitory extends Component {
   
   constructor(props) {
     super(props)
-    this.rtDao = new RepTipDao(SELECTED_FLAG.LANG_TIP);
+    this.rtDao = new RepTipDao(SELECTED_FLAG.LANG_HOT);
     this.state = {
        tipData:[]
     }

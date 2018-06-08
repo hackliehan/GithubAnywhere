@@ -20,7 +20,7 @@ export default class componentName extends Component {
     return (
         <TouchableOpacity
             activeOpacity = {0.6}
-            onPress = {this.props.onSelected}
+            onPress = {this.props.onPress}
         >
             <View style={styles.container}>
                     <Text style={styles.title}>{item.full_name}</Text>

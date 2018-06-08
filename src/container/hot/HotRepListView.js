@@ -13,8 +13,9 @@ import {
     RefreshControl
  } from 'react-native'
 
-import HotRepositoryDao from '../../dao/HotRepositoryDao'
+import HotRepositoryDao,{DATA_TYPE} from '../../dao/HotRepositoryDao'
 import RepositoryCard from '../../component/RepositoryCard'
+import RepoDetailView from '../../component/RepoDetailView'
 
 const QUERY_URL = 'https://api.github.com/search/repositories';
 
@@ -26,7 +27,7 @@ export default class HotRepListView extends Component {
       });
 
       //获取 hot 数据 dao
-      this.hotDao = new HotRepositoryDao();
+      this.hotDao = new HotRepositoryDao(DATA_TYPE.type_hot);
 
       this.state = {
          dataSource:ds,
@@ -38,8 +39,21 @@ export default class HotRepListView extends Component {
         this.loadResByLang();
     }
     
+    enterRow(item){
+        this.props.navigator.push({
+            component:RepoDetailView,
+            params:{
+                item
+            }
+        });
+    }
+
     renderRow(item){
-        return <RepositoryCard item={item}/>
+        return <RepositoryCard 
+            onPress={()=>this.enterRow(item)} 
+            item={item} 
+            {...this.props}
+        />
     }
 
     loadResByLang(){
@@ -47,7 +61,7 @@ export default class HotRepListView extends Component {
         this.setState({
             isLoading:true
         });
-        return this.hotDao.fetchRemoteRes(QUERY_URL,{
+        return this.hotDao.fetchRepoData(QUERY_URL,{
             q:query,
             sort:'stars'
         }).then(res=>{

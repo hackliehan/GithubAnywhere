@@ -1,0 +1,319 @@
+[
+    {
+      "query": "",
+      "name": "All Language",
+      "short_name": "All",
+      "checked": true
+    },
+    {
+      "query": "unknown",
+      "name": "Unknown",
+      "checked": true
+    },
+    {
+      "query": "as3",
+      "name": "ActionScript",
+      "short_name": "AS",
+      "checked": true
+    },
+    {
+      "query": "apacheconf",
+      "name": "ApacheConf",
+      "checked": true
+    },
+    {
+      "query": "nasm",
+      "name": "Assembly",
+      "short_name": "NASM",
+      "checked": true
+    },
+    {
+      "query": "bat",
+      "name": "Batchfile",
+      "short_name": "BAT",
+      "checked": true
+    },
+    {
+      "query": "c",
+      "name": "C",
+      "checked": true
+    },
+    {
+      "query": "csharp",
+      "name": "C#",
+      "checked": true
+    },
+    {
+      "query": "cpp",
+      "name": "C++",
+      "checked": true
+    },
+    {
+      "query": "cmake",
+      "name": "CMake",
+      "checked": true
+    },
+    {
+      "query": "css",
+      "name": "CSS",
+      "checked": false
+    },
+    {
+      "query": "clojure",
+      "name": "Clojure",
+      "checked": false
+    },
+    {
+      "query": "coffeescript",
+      "name": "CoffeeScript",
+      "checked": false
+    },
+    {
+      "query": "common-lisp",
+      "short_name": "Lisp",
+      "name": "Common Lisp",
+      "checked": false
+    },
+    {
+      "query": "crystal",
+      "name": "Crystal",
+      "checked": false
+    },
+    {
+      "query": "d",
+      "name": "D",
+      "checked": false
+    },
+    {
+      "query": "dart",
+      "name": "Dart",
+      "checked": false
+    },
+    {
+      "query": "elixir",
+      "name": "Elixir",
+      "checked": false
+    },
+    {
+      "query": "emacs-lisp",
+      "short_name": "Lisp",
+      "name": "Emacs Lisp",
+      "checked": false
+    },
+    {
+      "query": "erlang",
+      "name": "Erlang",
+      "checked": false
+    },
+    {
+      "query": "fsharp",
+      "name": "F#",
+      "checked": false
+    },
+    {
+      "query": "game-maker-language",
+      "short_name": "GML",
+      "name": "Game Maker Language",
+      "checked": false
+    },
+    {
+      "query": "go",
+      "name": "Go",
+      "checked": false
+    },
+    {
+      "query": "groovy",
+      "name": "Groovy",
+      "checked": false
+    },
+    {
+      "query": "html",
+      "name": "HTML",
+      "checked": false
+    },
+    {
+      "query": "haskell",
+      "name": "Haskell",
+      "checked": false
+    },
+    {
+      "query": "haxe",
+      "name": "Haxe",
+      "checked": false
+    },
+    {
+      "query": "inno-setup",
+      "short_name": "Inno",
+      "name": "Inno Setup",
+      "checked": false
+    },
+    {
+      "query": "java",
+      "name": "Java",
+      "checked": false
+    },
+    {
+      "query": "javascript",
+      "short_name": "JS",
+      "name": "JavaScript",
+      "checked": false
+    },
+    {
+      "query": "julia",
+      "name": "Julia",
+      "checked": false
+    },
+    {
+      "query": "kotlin",
+      "name": "Kotlin",
+      "checked": false
+    },
+    {
+      "query": "livescript",
+      "short_name": "LS",
+      "name": "LiveScript",
+      "checked": false
+    },
+    {
+      "query": "lua",
+      "name": "Lua",
+      "checked": false
+    },
+    {
+      "query": "makefile",
+      "name": "Makefile",
+      "checked": false
+    },
+    {
+      "query": "matlab",
+      "name": "Matlab",
+      "checked": false
+    },
+    {
+      "query": "nsis",
+      "name": "NSIS",
+      "checked": false
+    },
+    {
+      "query": "nimrod",
+      "name": "Nimrod",
+      "checked": false
+    },
+    {
+      "query": "ocaml",
+      "name": "OCaml",
+      "checked": false
+    },
+    {
+      "short_name": "Obj-C",
+      "query": "objective-c",
+      "name": "Objective-C",
+      "checked": false
+    },
+    {
+      "short_name": "Obj-C++",
+      "query": "objective-c%2B%2B",
+      "name": "Objective-C++",
+      "checked": false
+    },
+    {
+      "query": "php",
+      "name": "PHP",
+      "checked": false
+    },
+    {
+      "query": "plsql",
+      "name": "PLSQL",
+      "checked": false
+    },
+    {
+      "query": "pascal",
+      "name": "Pascal",
+      "checked": false
+    },
+    {
+      "query": "perl",
+      "name": "Perl",
+      "checked": false
+    },
+    {
+      "query": "postscript",
+      "name": "PostScript",
+      "checked": false
+    },
+    {
+      "query": "powershell",
+      "name": "PowerShell",
+      "checked": false
+    },
+    {
+      "query": "python",
+      "name": "Python",
+      "checked": false
+    },
+    {
+      "query": "qml",
+      "name": "QML",
+      "checked": false
+    },
+    {
+      "query": "r",
+      "name": "R",
+      "checked": false
+    },
+    {
+      "query": "ruby",
+      "name": "Ruby",
+      "checked": false
+    },
+    {
+      "query": "rust",
+      "name": "Rust",
+      "checked": false
+    },
+    {
+      "query": "scala",
+      "name": "Scala",
+      "checked": false
+    },
+    {
+      "query": "scheme",
+      "name": "Scheme",
+      "checked": false
+    },
+    {
+      "query": "bash",
+      "name": "Shell",
+      "checked": false
+    },
+    {
+      "query": "supercollider",
+      "name": "SuperCollider",
+      "checked": false
+    },
+    {
+      "query": "swift",
+      "name": "Swift",
+      "checked": false
+    },
+    {
+      "query": "tex",
+      "name": "TeX",
+      "checked": false
+    },
+    {
+      "query": "typescript",
+      "name": "TypeScript",
+      "checked": false
+    },
+    {
+      "query": "verilog",
+      "name": "Verilog",
+      "checked": false
+    },
+    {
+      "query": "xslt",
+      "name": "XSLT",
+      "checked": false
+    }
+  ]

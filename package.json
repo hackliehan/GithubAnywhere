@@ -7,6 +7,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"GitHubTrending": "^3.0.0",
 		"react": "16.0.0-alpha.6",
 		"react-native": "0.44.3",
 		"react-native-check-box": "^2.1.0",
