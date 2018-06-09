@@ -31,13 +31,17 @@ export default class TrendRepoListView extends Component {
       this.trendDao = new HotRepositoryDao(DATA_TYPE.type_trend);
 
       this.state = {
-         dataSource:ds,
-         isLoading:false
+        dataSource:ds,
+        isLoading:false
       }
     }
 
     componentDidMount(){
-        this.loadResByLang();
+        this.loadResByLang(this.props);
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.loadResByLang(nextProps);
     }
     
     enterRow(item){
@@ -58,14 +62,16 @@ export default class TrendRepoListView extends Component {
         />
     }
 
-    loadResByLang(){
-        let { name:lang } = this.props.tip;
+    loadResByLang(data){
+        let { tabLabel } = data;
+        let {value:since} = data.since;
+        console.log('接收到数据更改',since)
         this.setState({
             isLoading:true
         });
-        return this.trendDao.fetchRepoData(`${QUERY_URL}${lang}?since=daily`,{
-            lang,
-            since:'daily'
+        return this.trendDao.fetchRepoData(`${QUERY_URL}${tabLabel}?since=${since}`,{
+            tabLabel,
+            since
         }).then(res=>{
             this.setState({dataSource:this.state.dataSource.cloneWithRows(res)});
             this.setState({isLoading:false});
@@ -83,7 +89,7 @@ export default class TrendRepoListView extends Component {
                 renderRow = {item=>this.renderRow(item)}
                 refreshControl = {<RefreshControl 
                     refreshing = {this.state.isLoading}
-                    onRefresh = {()=>this.loadResByLang()}
+                    onRefresh = {()=>this.loadResByLang(this.props)}
                     title="加载最新数据"
                     titleColor={'#99CCFF'} 
                     colors={['#99CCFF']}

@@ -34,8 +34,9 @@ export default class HotRepositoryDao {
     fetchRepoData(url,params){
         return new Promise((resolve,reject)=>{
             let key = this.dataType === DATA_TYPE.type_hot ?`${this.dataType}${params.q}`:
-                `${this.dataType}${params.since}_${params.lang}`;
+                `${this.dataType}${params.since}_${params.tabLabel}`;
             this.key = key;
+            console.log(key,url)
             this.fetchLocalRepoData(key).then(res=>{
                 let isNeedUpdate = true;
                 if(res&&res.saveTimeStamp){
@@ -83,6 +84,7 @@ export default class HotRepositoryDao {
                 })
             }else{
                 this.trendUtil.fetchTrending(url).then(res=>{
+                    console.log(url,res)
                     resolve(res);
                     this.saveLocalRepoData(res,this.key).catch(error=>{
                         console.log(error);

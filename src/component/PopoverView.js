@@ -13,7 +13,8 @@ export default class PopoverView extends Component {
         fromRectComp:PropTypes.object,//定位依据的组件
         contentStyle: ViewPropTypes.style,
         placement:PropTypes.string,
-        data:PropTypes.array.isRequired
+        data:PropTypes.array.isRequired,
+        onSelected:PropTypes.func//item 被选中触发,传入单项数据 item
     }
 
     static defaultProps = {
@@ -64,6 +65,7 @@ export default class PopoverView extends Component {
                         <TouchableOpacity 
                             key={index}
                             style={styles.labelTouch}
+                            onPress = {()=>{this.props.onSelected(item)}}
                         >
                             <Text style={styles.labelText}>{item.key}</Text>
                         </TouchableOpacity>

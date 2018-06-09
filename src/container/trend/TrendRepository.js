@@ -54,6 +54,7 @@ export default class TrendRepository extends Component {
                   key={index}
                   tabLabel={item.name} 
                   tip={item}
+                  since={this.state.sinceInfo}
                   {...this.props}
                 >{item.name}</TrendRepoListView>:null
               })}
@@ -73,6 +74,16 @@ export default class TrendRepository extends Component {
     this.refs.sinceSelect.showPopover();
   }
 
+  /**
+   * 选中单个 popover 选项
+  */
+  selectSinceItem(item){
+    this.setState({
+      sinceInfo:item
+    });
+    this.refs.sinceSelect.closePopover();
+  }
+
   renderTitleView(){
     return (
       <TouchableOpacity
@@ -81,7 +92,7 @@ export default class TrendRepository extends Component {
         onPress = {()=>this.showSinceSelect()}
       >
         <View style={styles.titleView}>
-          <Text style={styles.titleViewText}>趋势</Text>
+          <Text style={styles.titleViewText}>趋势 {this.state.sinceInfo.key}</Text>
           <Image style={styles.titleViewImage} source={require('../../../res/images/ic_tiaozhuan_down.png')}></Image>
         </View>
       </TouchableOpacity>
@@ -91,7 +102,6 @@ export default class TrendRepository extends Component {
   render() {
     return (
       <View style={styles.container}>
-
         <NavigationBar 
           titleView={this.renderTitleView()}
         />
@@ -100,6 +110,7 @@ export default class TrendRepository extends Component {
           ref='sinceSelect'
           fromRectComp={this.refs.titleView}
           data = {sinceData}
+          onSelected = {(item)=>{this.selectSinceItem(item)}}
         ></PopoverView>
       </View>
     )
