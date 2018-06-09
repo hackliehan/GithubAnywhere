@@ -5,12 +5,11 @@
 
 import React, { Component } from 'react'
 import { 
-    Text, 
     StyleSheet, 
     View,
     ListView,
-    Image,
-    RefreshControl
+    RefreshControl,
+    DeviceEventEmitter
  } from 'react-native'
 
 import HotRepositoryDao,{DATA_TYPE} from '../../dao/HotRepositoryDao'
@@ -37,6 +36,15 @@ export default class HotRepListView extends Component {
 
     componentDidMount(){
         this.loadResByLang();
+        this.listener = DeviceEventEmitter.addListener('reFreshHotList',()=>{
+            this.loadResByLang();
+        });
+    }
+
+    componentWillUnmount(){
+        if(this.listener){
+            this.listener.remove();
+        }
     }
     
     enterRow(item){
@@ -79,6 +87,7 @@ export default class HotRepListView extends Component {
             <ListView 
                 dataSource = {this.state.dataSource}
                 renderRow = {item=>this.renderRow(item)}
+                enableEmptySections = {true}
                 refreshControl = {<RefreshControl 
                     refreshing = {this.state.isLoading}
                     onRefresh = {()=>this.loadResByLang()}

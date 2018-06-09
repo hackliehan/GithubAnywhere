@@ -37,7 +37,9 @@ export default class RepTipDao {
                 }
                 else{
                     resolve(this.flag === SELECTED_FLAG.LANG_HOT?tipData:trendData);
-                    this.saveTipData(this.flag === SELECTED_FLAG.LANG_HOT?tipData:trendData);
+                    this.saveTipData(this.flag === SELECTED_FLAG.LANG_HOT?tipData:trendData).catch(error=>{
+                        console.log(error);
+                    });
                 }
 
             })
@@ -49,16 +51,20 @@ export default class RepTipDao {
      * 直接打印错误信息
      */
     saveTipData(data){
-        try{
-            data = JSON.stringify(data);
-        }catch(error){
-            console.log(error);
-        }
-        AsyncStorage.setItem(this.flag,data,error=>{
-            if(error){
-                console.log(error);
+        return new Promise((resolve,reject)=>{
+            try{
+                data = JSON.stringify(data);
+            }catch(error){
+                reject(error);
             }
-        }) 
+            AsyncStorage.setItem(this.flag,data,error=>{
+                if(error){
+                    reject(error);
+                    return;
+                }
+                resolve(true);
+            })
+        }); 
     }
 
  }

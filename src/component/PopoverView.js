@@ -78,7 +78,7 @@ export default class PopoverView extends Component {
 
 const styles = StyleSheet.create({
     contentStyle:{
-        opacity:0.8,
+        opacity:0.78,
         backgroundColor:'#99CCFF'
     },
     wrapper:{

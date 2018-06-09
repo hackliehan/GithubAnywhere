@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react'
-import { Text , StyleSheet , View , Alert ,ScrollView} from 'react-native'
+import { StyleSheet , View , Alert , DeviceEventEmitter} from 'react-native'
 import NavigationBar from '../../component/NavigationBar'
 import ImageBtn from '../../component/ImageBtn'
 import TextBtn from '../../component/TextBtn'
@@ -12,11 +12,21 @@ import RepTipDao,{SELECTED_FLAG} from '../../dao/RepTipDao'
 import ArrayUtils from '../../util/ArrayUtils'
 import SortableListView from 'react-native-sortable-listview'
 import SortTipCell from './SortTipCell'
+import { ACTION_TYPE , TAB_FLAG } from '../Home'
+
+/**
+ * 操作排序类型的标签
+ */
+export const SORT_MODIFY_FLAG = {
+  FLAG_HOT:'FLAG_HOT',
+  FLAG_TREND:'FLAG_TREND'
+}
 
 export default class SortTipView extends Component {
   constructor(props) {
     super(props)
-    this.rtDao = new RepTipDao(SELECTED_FLAG.LANG_TIP);
+    this.modifyHot = this.props.modifyFlag === SORT_MODIFY_FLAG.FLAG_HOT;
+    this.rtDao = new RepTipDao(this.modifyHot?SELECTED_FLAG.LANG_HOT:SELECTED_FLAG.LANG_TREND);
     this.tipData = [];//所有的标签条目
     this.backupActiveTips = [];//可排序标签备份
     this.sortResultTips = [];//排序最终合并结果
@@ -36,7 +46,7 @@ export default class SortTipView extends Component {
 
   renderNavBar(){
     return <NavigationBar 
-      title = "自定义语言标签"
+      title = {`排序${this.modifyHot?'热门标签':'趋势语言'}`}
       leftBtn = {
         <ImageBtn 
           source={require('../../../res/images/ic_arrow_back_white_36pt.png')}
@@ -81,8 +91,13 @@ export default class SortTipView extends Component {
       return;
     }
     this.getFinalTipData();
-    this.rtDao.saveTipData(this.sortResultTips);
-    this.props.navigator.pop();
+    this.rtDao.saveTipData(this.sortResultTips).then(res=>{
+      DeviceEventEmitter.emit('home_action',ACTION_TYPE.REFRESH,{
+        selectedTab:TAB_FLAG.CUST
+      });
+    }).catch(error=>{
+      console.log(error);
+    });
   }
 
   /**

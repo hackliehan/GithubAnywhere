@@ -5,12 +5,11 @@
 
 import React, { Component } from 'react'
 import { 
-    Text, 
     StyleSheet, 
     View,
     ListView,
-    Image,
-    RefreshControl
+    RefreshControl,
+    DeviceEventEmitter
  } from 'react-native'
 
 import HotRepositoryDao,{DATA_TYPE} from '../../dao/HotRepositoryDao'
@@ -37,13 +36,27 @@ export default class TrendRepoListView extends Component {
     }
 
     componentDidMount(){
-        this.loadResByLang(this.props);
+        let {since:{value:since}} = this.props;
+        this.loadResByLang(since);
+        this.listener = DeviceEventEmitter.addListener('refreshTrendList',newSince=>{
+            this.loadResByLang(newSince);
+        });
     }
 
     componentWillReceiveProps(nextProps){
-        this.loadResByLang(nextProps);
+        let newSince = nextProps.since.value,
+            oldSince = this.props.since.value;
+        if(newSince !== oldSince){
+            this.loadResByLang(newSince);
+        }
     }
     
+    componentWillUnmount(){
+        if(this.listener){
+            this.listener.remove();
+        }
+    }
+
     enterRow(item){
         let {fullName:full_name,url} = item;
         this.props.navigator.push({
@@ -62,10 +75,8 @@ export default class TrendRepoListView extends Component {
         />
     }
 
-    loadResByLang(data){
-        let { tabLabel } = data;
-        let {value:since} = data.since;
-        console.log('接收到数据更改',since)
+    loadResByLang(since){
+        let {tabLabel} = this.props;
         this.setState({
             isLoading:true
         });
@@ -82,14 +93,16 @@ export default class TrendRepoListView extends Component {
     }
 
     render() {
+        let {since:{value:since}} = this.props;
         return (
         <View style={styles.container}>
             <ListView 
                 dataSource = {this.state.dataSource}
                 renderRow = {item=>this.renderRow(item)}
+                enableEmptySections = {true}
                 refreshControl = {<RefreshControl 
                     refreshing = {this.state.isLoading}
-                    onRefresh = {()=>this.loadResByLang(this.props)}
+                    onRefresh = {()=>this.loadResByLang(since)}
                     title="加载最新数据"
                     titleColor={'#99CCFF'} 
                     colors={['#99CCFF']}

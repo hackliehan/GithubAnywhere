@@ -4,18 +4,30 @@
  */
 
 import React, { Component } from 'react'
-import { Text, StyleSheet, View , ScrollView , Alert} from 'react-native'
+import { StyleSheet, View , ScrollView , Alert, DeviceEventEmitter} from 'react-native'
 import NavigationBar from '../../component/NavigationBar'
 import ImageBtn from '../../component/ImageBtn'
 import TextBtn from '../../component/TextBtn'
 import RepTipDao,{SELECTED_FLAG} from '../../dao/RepTipDao'
 import CheckBox from 'react-native-check-box'
 import ArrayUtils from '../../util/ArrayUtils'
+import { ACTION_TYPE , TAB_FLAG } from '../Home'
+
+/**
+ * 操作标签
+ * @param {tring} FLAG_HOT 操作热门条目
+ * @param {tring} FLAG_TREND 操作最新趋势条目
+ */
+export const MODIFY_FLAG = {
+  FLAG_HOT:'FLAG_HOT',
+  FLAG_TREND:'FLAG_TREND'
+}
 
 export default class RepTipView extends Component {
   constructor(props) {
     super(props)
-    this.rtDao = new RepTipDao(SELECTED_FLAG.LANG_TIP);
+    this.modifyHot = this.props.modifyFlag === MODIFY_FLAG.FLAG_HOT;
+    this.rtDao = new RepTipDao(this.modifyHot?SELECTED_FLAG.LANG_HOT:SELECTED_FLAG.LANG_TREND);
     //被改变的标签数据
     this.changedTipData = [];
     this.state = {
@@ -46,7 +58,7 @@ export default class RepTipView extends Component {
 
   renderNavBar(){
     return <NavigationBar 
-      title = "自定义语言标签"
+      title = {`自定义${this.modifyHot?'标签':'语言'}`}
       leftBtn = {
         <ImageBtn 
           source={require('../../../res/images/ic_arrow_back_white_36pt.png')}
@@ -116,8 +128,15 @@ export default class RepTipView extends Component {
     let resultTipData = ArrayUtils.clone(this.state.tipData);
     if(this.props.isRemove)
     resultTipData = this.state.tipData.filter(item=>this.changedTipData.indexOf(item)<0);
-    this.rtDao.saveTipData(resultTipData);
-    this.props.navigator.pop();
+    //存储数据并且通报状态
+    this.rtDao.saveTipData(resultTipData).then(res=>{
+      // this.props.navigator.pop();
+      DeviceEventEmitter.emit('home_action',ACTION_TYPE.REFRESH,{
+        selectedTab:TAB_FLAG.CUST
+      });
+    }).catch(error=>{
+      console.log(error);
+    });
   }
 
   loadTipData(){

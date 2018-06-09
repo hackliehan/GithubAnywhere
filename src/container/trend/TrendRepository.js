@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react'
-import { Text, StyleSheet, View ,Image,TouchableOpacity} from 'react-native'
+import { Text, StyleSheet, View ,Image,TouchableOpacity,DeviceEventEmitter} from 'react-native'
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import NavigationBar from '../../component/NavigationBar'
 import TrendRepoListView from './TrendRepoListView'
@@ -62,7 +62,7 @@ export default class TrendRepository extends Component {
             </ScrollableTabView>
   }
 
-  loadTipData(){
+  loadTipData(isRefreshList){
     this.rtDao.fetchTipData().then(data=>{
       this.setState({tipData:data});
     }).catch(error=>{

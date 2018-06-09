@@ -3,7 +3,7 @@
  *@author binhg
  */
 import React, { Component } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { StyleSheet, View , DeviceEventEmitter} from 'react-native'
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import NavigationBar from '../../component/NavigationBar'
 import HotRepListView from './HotRepListView'
@@ -21,6 +21,14 @@ export default class HotRespoitory extends Component {
   
   componentDidMount(){
     this.loadTipData();
+    this.listener = DeviceEventEmitter.addListener('hotTipIsChanged',()=>{
+    });
+  }
+
+  componentWillUnMount(){
+    if(this.listener){
+      this.listener.remove();
+    }
   }
 
   renderScrollTabView(){

@@ -5,9 +5,9 @@
 
 import React, { Component } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
-import RepTipView from './RepTipView'
+import RepTipView,{MODIFY_FLAG} from './RepTipView'
 import NavigationBar from '../../component/NavigationBar'
-import SortTipView from './SortTipView'
+import SortTipView,{SORT_MODIFY_FLAG} from './SortTipView'
 
 export default class Customer extends Component {
   render() {
@@ -19,28 +19,56 @@ export default class Customer extends Component {
         <Text
           onPress={()=>{
             this.props.navigator.push({
-              component:RepTipView
+              component:RepTipView,
+              params:{
+                modifyFlag:MODIFY_FLAG.FLAG_HOT
+              }
             });
           }}
-        > 自定义标签 </Text>
+        > 自定义热门标签 </Text>
         <Text
           onPress={()=>{
             this.props.navigator.push({
-              component:SortTipView
+              component:SortTipView,
+              params:{
+                modifyFlag:SORT_MODIFY_FLAG.FLAG_HOT
+              }
             });
           }}
-        > 标签排序 </Text>
+        > 热门标签排序 </Text>
         <Text
           onPress={()=>{
             this.props.navigator.push({
               component:RepTipView,
               params:{
-                isRemove:true
+                isRemove:true,
+                modifyFlag:MODIFY_FLAG.FLAG_HOT
               }
             });
           }}
-        > 删除标签 </Text>
+        > 删除热门标签 </Text>
+        <Text
+          onPress={()=>{
+            this.props.navigator.push({
+              component:RepTipView,
+              params:{
+                modifyFlag:MODIFY_FLAG.FLAG_TREND
+              }
+            });
+          }}
+        > 自定义趋势标签 </Text>
+        <Text
+          onPress={()=>{
+            this.props.navigator.push({
+              component:SortTipView,
+              params:{
+                modifyFlag:SORT_MODIFY_FLAG.FLAG_TREND
+              }
+            });
+          }}
+        > 趋势语言排序 </Text>
       </View>
+      
     )
   }
 }
