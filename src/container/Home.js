@@ -107,7 +107,7 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <TabNavigator>
-          {this.renderTabView(HotRepository,TAB_FLAG.HOT,'最热',require('../../res/images/ic_polular.png'))}
+          {this.renderTabView(HotRepository,TAB_FLAG.HOT,'热门',require('../../res/images/ic_polular.png'))}
           {this.renderTabView(TrendRepository,TAB_FLAG.TREND,'趋势',require('../../res/images/ic_trending.png'))}
           {this.renderTabView(FavorateRepository,TAB_FLAG.FAVO,'收藏',require('../../res/images/ic_favorite.png'))}
           {this.renderTabView(Customer,TAB_FLAG.CUST,'我',require('../../res/images/ic_my.png'))}

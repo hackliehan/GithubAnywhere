@@ -13,8 +13,10 @@ import {
  } from 'react-native'
 
 import HotRepositoryDao,{DATA_TYPE} from '../../dao/HotRepositoryDao'
-import RepositoryCard from '../../component/RepositoryCard'
-import RepoDetailView from '../../component/RepoDetailView'
+import RepositoryCard from '../common/RepositoryCard'
+import RepoDetailView from '../common/RepoDetailView'
+import {FAVO_TYPE} from '../../dao/FavoRepoDao'
+import FavorateCommon from '../common/FavorateCommon'
 
 const QUERY_URL = 'https://api.github.com/search/repositories';
 
@@ -25,8 +27,11 @@ export default class HotRepListView extends Component {
           rowHasChanged:(r1,r2)=>r1!==r2
       });
 
+      this.hotData = [];
+
       //获取 hot 数据 dao
       this.hotDao = new HotRepositoryDao(DATA_TYPE.type_hot);
+      this.favoCommon = new FavorateCommon(FAVO_TYPE.TYPE_HOT);
 
       this.state = {
          dataSource:ds,
@@ -36,9 +41,16 @@ export default class HotRepListView extends Component {
 
     componentDidMount(){
         this.loadResByLang();
-        this.listener = DeviceEventEmitter.addListener('reFreshHotList',()=>{
-            this.loadResByLang();
+        this.listener = DeviceEventEmitter.addListener('hasChangeHotFavorate',()=>{
+            this.favoCommon.changeStatus(true);
         });
+    }
+
+    componentWillReceiveProps(){
+        if(this.favoCommon.getStatus()){
+            this.favoCommon.changeStatus(false);
+            this.loadResByLang();
+        }
     }
 
     componentWillUnmount(){
@@ -51,17 +63,28 @@ export default class HotRepListView extends Component {
         this.props.navigator.push({
             component:RepoDetailView,
             params:{
-                item
+                item,
+                favoType:FAVO_TYPE.TYPE_HOT
             }
         });
     }
 
     renderRow(item){
-        return <RepositoryCard 
-            onPress={()=>this.enterRow(item)} 
+        return <RepositoryCard
+            onPress={()=>this.enterRow(item)}
+            onFavorate = {item=>this.favoCommon.saveFavorateItem(item)} 
+            onUnFavorate = {item=>this.favoCommon.delFavorateItem(item)}
             item={item} 
             {...this.props}
         />
+    }
+
+    
+
+    flushDataSource(){
+        let dataList = this.favoCommon.mixFavoAndRepo(this.hotData);
+        this.setState({dataSource:this.state.dataSource.cloneWithRows(dataList)});
+        this.setState({isLoading:false});
     }
 
     loadResByLang(){
@@ -73,8 +96,11 @@ export default class HotRepListView extends Component {
             q:query,
             sort:'stars'
         }).then(res=>{
-            this.setState({dataSource:this.state.dataSource.cloneWithRows(res)});
-            this.setState({isLoading:false});
+            this.hotData = res;
+            this.favoCommon.loadFavorateData().then(()=>{
+                this.flushDataSource();
+            });
+            
         }).catch(error=>{
             console.log(error);
             this.setState({isLoading:false});

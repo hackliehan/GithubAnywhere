@@ -41,7 +41,7 @@ export default class HotRepositoryDao {
                 if(res&&res.saveTimeStamp){
                     isNeedUpdate = this.isNeedUpdate(res.saveTimeStamp);
                 }
-                if(isNeedUpdate){
+                if(isNeedUpdate||!res.items||res.items.length<1){
                     this.fetchRemoteRepoData(url,params).then(res=>{
                         resolve(res);
                     }).catch(error=>{

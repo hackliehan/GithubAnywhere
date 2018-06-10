@@ -13,8 +13,10 @@ import {
  } from 'react-native'
 
 import HotRepositoryDao,{DATA_TYPE} from '../../dao/HotRepositoryDao'
-import TrendRepoCard from '../../component/TrendRepoCard'
-import RepoDetailView from '../../component/RepoDetailView'
+import TrendRepoCard from '../common/TrendRepoCard'
+import RepoDetailView from '../common/RepoDetailView'
+import { FAVO_TYPE } from '../../dao/FavoRepoDao'
+import FavorateCommon from '../common/FavorateCommon'
 
 const QUERY_URL = 'https://github.com/trending/';
 const GITHUB_URL = 'https://github.com';
@@ -26,8 +28,11 @@ export default class TrendRepoListView extends Component {
           rowHasChanged:(r1,r2)=>r1!==r2
       });
 
+      this.trendData = [];
+
       //获取 Repo 数据 dao
       this.trendDao = new HotRepositoryDao(DATA_TYPE.type_trend);
+      this.favoCommon = new FavorateCommon(FAVO_TYPE.TYPE_TREND);
 
       this.state = {
         dataSource:ds,
@@ -38,8 +43,8 @@ export default class TrendRepoListView extends Component {
     componentDidMount(){
         let {since:{value:since}} = this.props;
         this.loadResByLang(since);
-        this.listener = DeviceEventEmitter.addListener('refreshTrendList',newSince=>{
-            this.loadResByLang(newSince);
+        this.listener = DeviceEventEmitter.addListener('hasChangeTrendFavorate',()=>{
+            this.favoCommon.changeStatus(true);
         });
     }
 
@@ -47,6 +52,9 @@ export default class TrendRepoListView extends Component {
         let newSince = nextProps.since.value,
             oldSince = this.props.since.value;
         if(newSince !== oldSince){
+            this.loadResByLang(newSince);
+        }else if(this.favoCommon.getStatus()){
+            this.favoCommon.changeStatus(false);
             this.loadResByLang(newSince);
         }
     }
@@ -62,7 +70,8 @@ export default class TrendRepoListView extends Component {
         this.props.navigator.push({
             component:RepoDetailView,
             params:{
-                item:{full_name,html_url:`${GITHUB_URL}${url}`,...item}
+                item:{full_name,html_url:`${GITHUB_URL}${url}`,...item},
+                favoType:FAVO_TYPE.TYPE_TREND
             }
         });
     }
@@ -71,21 +80,31 @@ export default class TrendRepoListView extends Component {
         return <TrendRepoCard 
             onPress={()=>this.enterRow(item)} 
             item={item} 
+            onFavorate = {item=>this.favoCommon.saveFavorateItem(item)} 
+            onUnFavorate = {item=>this.favoCommon.delFavorateItem(item)}
             {...this.props}
         />
     }
 
+    flushDataSource(){
+        let dataList = this.favoCommon.mixFavoAndRepo(this.trendData);
+        this.setState({dataSource:this.state.dataSource.cloneWithRows(dataList)});
+        this.setState({isLoading:false});
+    }
+
     loadResByLang(since){
-        let {tabLabel} = this.props;
         this.setState({
             isLoading:true
         });
+        let {tabLabel} = this.props;
         return this.trendDao.fetchRepoData(`${QUERY_URL}${tabLabel}?since=${since}`,{
             tabLabel,
             since
         }).then(res=>{
-            this.setState({dataSource:this.state.dataSource.cloneWithRows(res)});
-            this.setState({isLoading:false});
+            this.trendData = res;
+            this.favoCommon.loadFavorateData().then(()=>{
+                this.flushDataSource();
+            });
         }).catch(error=>{
             console.log(error);
             this.setState({isLoading:false});

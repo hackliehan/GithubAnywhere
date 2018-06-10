@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     Image,
-    ViewPropTypes
+    ViewPropTypes,
     } from 'react-native'
 
 
@@ -17,6 +17,7 @@ export default class ImageBtn extends Component {
     static propTypes = {
         source:PropTypes.any.isRequired,
         wrapperStyle:ViewPropTypes.style,
+        style:Image.propTypes.style,
         onPress:PropTypes.func,
         disable: PropTypes.bool,
         img:PropTypes.element
@@ -46,7 +47,7 @@ export default class ImageBtn extends Component {
                 >
                 {this.props.img?this.props.img:
                 <Image 
-                    style={styles.btnIcon} 
+                    style={[styles.btnIcon,this.props.style]} 
                     source={this.props.source}
                 />
                 }    

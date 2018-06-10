@@ -6,6 +6,40 @@
 export default class ArrayUtils {
 
     /**
+     * 合并更新子项数据到 arr1
+     */
+    static mixPropById(arr1,arr2,idName,targetKey){
+        return arr1.map(item1=>{
+            for (let index = 0; index < arr2.length; index++) {
+                const item2 = arr2[index];
+                if(item1[idName] === item2[idName]){
+                    item1[targetKey] = item2[targetKey];
+                }
+            }
+            return item1;
+        });
+    }
+
+    /**
+     *更新数组的子项,根据某项子项属性判定
+     */
+    static updatePropById(arr,item,idName,targetKey){
+        return arr.map(item1=>{
+            if(item1[idName] === item[idName]){
+                item1[targetKey] = item[targetKey];
+            }
+            return item1;
+        });
+    }
+
+    /**
+     * 根据属性删除子项
+     */
+    static delItemById(arr,item,idName){
+        return arr.filter(item1=>item1[idName] !== item[idName]);
+    }
+
+    /**
      * 根据子项对比 Array
      */
     static isEqual(arr1,arr2){

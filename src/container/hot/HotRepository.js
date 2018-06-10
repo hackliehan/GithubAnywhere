@@ -21,8 +21,6 @@ export default class HotRespoitory extends Component {
   
   componentDidMount(){
     this.loadTipData();
-    this.listener = DeviceEventEmitter.addListener('hotTipIsChanged',()=>{
-    });
   }
 
   componentWillUnMount(){
