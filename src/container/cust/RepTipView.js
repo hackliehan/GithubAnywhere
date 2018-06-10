@@ -161,7 +161,8 @@ export default class RepTipView extends Component {
 
 const styles = StyleSheet.create({
   container:{
-    flex:1
+    flex:1,
+    backgroundColor:'whitesmoke'
   },
   checkbox:{
     flex:1,

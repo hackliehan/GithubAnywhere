@@ -150,7 +150,8 @@ export default class SortTipView extends Component {
 
 const styles = StyleSheet.create({
   container:{
-    flex:1
+    flex:1,
+    backgroundColor:'whitesmoke'
   },
   sortableList:{
     paddingHorizontal:6

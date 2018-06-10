@@ -8,6 +8,8 @@ import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-vi
 import NavigationBar from '../../component/NavigationBar'
 import HotRepListView from './HotRepListView'
 import RepTipDao,{SELECTED_FLAG} from '../../dao/RepTipDao'
+import ImageBtn from '../../component/ImageBtn'
+import SearchView from './SearchView'
 
 export default class HotRespoitory extends Component {
   
@@ -59,12 +61,33 @@ export default class HotRespoitory extends Component {
     })
   }
 
+  jumpToSearch(){
+    this.props.navigator.push({
+      component:SearchView,
+      params:{
+        ...this.props
+      }
+    });
+  }
+
+  renderRightBtn(){
+    return (
+      <View style={styles.leftBtnWrapper}>
+        <ImageBtn 
+          source = {require('../../../res/images/ic_search_white_48pt.png')}
+          onPress={()=>this.jumpToSearch()}
+        />
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
 
         <NavigationBar 
           title="最热项目"
+          rightBtn = {this.renderRightBtn()}
         />
         {this.renderScrollTabView()}
       </View>
@@ -80,5 +103,9 @@ const styles = StyleSheet.create({
   tabView:{
     backgroundColor:'#e7e7e7',
     height:3
+  },
+  leftBtnWrapper:{
+    flexDirection:'row',
+    alignItems:'center'
   }
 })

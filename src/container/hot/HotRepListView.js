@@ -17,6 +17,7 @@ import RepositoryCard from '../common/RepositoryCard'
 import RepoDetailView from '../common/RepoDetailView'
 import {FAVO_TYPE} from '../../dao/FavoRepoDao'
 import FavorateCommon from '../common/FavorateCommon'
+import {ACTION_TYPE} from '../Home'
 
 const QUERY_URL = 'https://api.github.com/search/repositories';
 
@@ -46,10 +47,13 @@ export default class HotRepListView extends Component {
         });
     }
 
-    componentWillReceiveProps(){
+    componentWillReceiveProps(nextProps){
+        let { isSearch,tip:{query} } = nextProps;
         if(this.favoCommon.getStatus()){
             this.favoCommon.changeStatus(false);
             this.loadResByLang();
+        }if(isSearch&&(query!==this.props.tip.query)){
+            this.loadResByLang(query);
         }
     }
 
@@ -87,8 +91,10 @@ export default class HotRepListView extends Component {
         this.setState({isLoading:false});
     }
 
-    loadResByLang(){
+    loadResByLang(queryStr){
         let {query} = this.props.tip;
+        if(queryStr) query = queryStr;
+        console.log(query);
         this.setState({
             isLoading:true
         });
@@ -103,6 +109,9 @@ export default class HotRepListView extends Component {
             
         }).catch(error=>{
             console.log(error);
+            DeviceEventEmitter.emit('home_action',ACTION_TYPE.SHOW_TOAST,{
+                message:'该标签没有数据!'
+            });
             this.setState({isLoading:false});
         });
     }
