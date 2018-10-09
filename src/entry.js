@@ -4,9 +4,8 @@
  */
 
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
 import {Navigator} from 'react-native-deprecated-custom-components'
-import Welcome from './container/Welcome'
+import Home from './container/Home'
 
 export default function entry(){
 
@@ -24,7 +23,7 @@ export default function entry(){
         render(){
             return <Navigator
                 initialRoute = {{
-                    component:Welcome
+                    component:Home
                 }}
                 renderScene = {(route,navigator)=>this.renderScene(route,navigator)}
             />

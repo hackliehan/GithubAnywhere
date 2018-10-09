@@ -3,7 +3,7 @@
  * @author binhg
  */
 import React, { Component } from 'react'
-import { Text,TextInput, StyleSheet, View } from 'react-native'
+import {TextInput, StyleSheet, View } from 'react-native'
 import NavigationBar from '../../component/NavigationBar'
 import TextBtn from '../../component/TextBtn'
 import ImageBtn from '../../component/ImageBtn'
